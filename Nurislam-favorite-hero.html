@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ер Төстік — ертегілер еліне саяхат</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fff8e9;
+      background: #11152d;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .hero {
+      position: relative;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 100px 24px 80px;
+      background:
+        radial-gradient(ellipse at 50% 85%, #e88c58 0, transparent 24%),
+        linear-gradient(180deg, #11152d 0%, #29234c 45%, #79456b 76%, #e28a5b 100%);
+    }
+
+    .stars,
+    .stars::before,
+    .stars::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 12% 20%, #fff8d8 60%, transparent),
+        radial-gradient(2px 2px at 35% 13%, #fff8d8 60%, transparent),
+        radial-gradient(1px 1px at 57% 22%, #fff8d8 60%, transparent),
+        radial-gradient(2px 2px at 76% 16%, #fff8d8 60%, transparent),
+        radial-gradient(1px 1px at 89% 34%, #fff8d8 60%, transparent);
+      animation: twinkle 4s ease-in-out infinite alternate;
+    }
+
+    .stars::before {
+      transform: translateY(25px);
+      opacity: 0.6;
+      animation-delay: 1s;
+    }
+
+    .stars::after {
+      transform: translateY(-20px);
+      opacity: 0.4;
+      animation-delay: 2s;
+    }
+
+    .moon {
+      position: absolute;
+      top: 12%;
+      right: 15%;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #fff1bd;
+      box-shadow: 0 0 45px 12px #ffe8a455;
+      animation: moon-glow 4s ease-in-out infinite alternate;
+    }
+
+    .mountain {
+      position: absolute;
+      right: -8%;
+      bottom: -4px;
+      left: -8%;
+      height: 37%;
+      background: #342d50;
+      clip-path: polygon(0 80%, 14% 43%, 25% 69%, 43% 19%, 57% 72%, 72% 35%, 88% 75%, 100% 48%, 100% 100%, 0 100%);
+    }
+
+    .mountain.back {
+      bottom: 7%;
+      height: 34%;
+      background: #51405f;
+      opacity: 0.8;
+      transform: scaleX(-1);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(780px, 100%);
+      text-align: center;
+      animation: appear 1.2s ease both;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: #ffd88d;
+      font-size: 13px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: #fff3d5;
+      font-size: clamp(56px, 12vw, 112px);
+      line-height: 0.98;
+      text-shadow: 0 5px 30px #17152f88;
+    }
+
+    .subtitle {
+      max-width: 540px;
+      margin: 22px auto 30px;
+      color: #f5dccb;
+      font-size: clamp(18px, 3vw, 22px);
+      line-height: 1.65;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 30px;
+      border: 1px solid #ffe3a4;
+      border-radius: 999px;
+      color: #25203b;
+      background: #ffe3a4;
+      font: bold 16px Georgia, serif;
+      text-decoration: none;
+      transition: transform 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+
+    .button:hover {
+      transform: translateY(-4px);
+      background: #fff0c9;
+      box-shadow: 0 10px 28px #160f3344;
+    }
+
+    .horse {
+      position: absolute;
+      z-index: 1;
+      right: -220px;
+      bottom: 13%;
+      width: 210px;
+      font-size: 92px;
+      filter: drop-shadow(0 8px 8px #17152f55);
+      animation: ride 13s linear infinite;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      z-index: 3;
+      bottom: 25px;
+      left: 50%;
+      color: #ffe9ca;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      transform: translateX(-50%);
+      animation: bob 1.8s ease-in-out infinite;
+    }
+
+    .story {
+      position: relative;
+      padding: 100px 24px;
+      color: #2a2338;
+      background: #fff8e9;
+    }
+
+    .story-inner {
+      width: min(850px, 100%);
+      margin: 0 auto;
+    }
+
+    .story h2 {
+      margin-bottom: 22px;
+      color: #8d4560;
+      font-size: clamp(34px, 6vw, 52px);
+      text-align: center;
+    }
+
+    .story p {
+      margin-bottom: 18px;
+      font-size: 19px;
+      line-height: 1.85;
+    }
+
+    .quote {
+      margin: 35px 0;
+      padding: 22px 26px;
+      border-left: 4px solid #d88c62;
+      color: #76475a;
+      background: #f7ead7;
+      font-size: 22px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    footer {
+      padding: 28px 20px;
+      color: #edcfb7;
+      background: #17162f;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.55; }
+      to { opacity: 1; }
+    }
+
+    @keyframes moon-glow {
+      from { box-shadow: 0 0 35px 8px #ffe8a433; }
+      to { box-shadow: 0 0 55px 18px #ffe8a466; }
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes ride {
+      from { right: -220px; }
+      to { right: calc(100% + 220px); }
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -8px); }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        min-height: 90vh;
+      }
+
+      .moon {
+        top: 10%;
+        right: 10%;
+        width: 55px;
+        height: 55px;
+      }
+
+      .horse {
+        bottom: 12%;
+        font-size: 68px;
+      }
+
+      .story {
+        padding: 72px 22px;
+      }
+
+      .story p {
+        font-size: 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="hero">
+      <div class="stars"></div>
+      <div class="moon" aria-hidden="true"></div>
+      <div class="mountain back" aria-hidden="true"></div>
+      <div class="mountain" aria-hidden="true"></div>
+
+      <div class="hero-content">
+        <p class="eyebrow">Қазақтың халық ертегісі</p>
+        <h1>Ер Төстік</h1>
+        <p class="subtitle">
+          Батырдың ғажайып сапары мен адал достық туралы көне хикая.
+          Ертегілер еліне бірге аттанайық!
+        </p>
+        <a class="button" href="#ertegi">Ертегіні оқу ↓</a>
+      </div>
+
+      <div class="horse" aria-hidden="true">🐎</div>
+      <div class="scroll-hint">Төмен қарай сырғытыңыз</div>
+    </section>
+
+    <section class="story" id="ertegi">
+      <div class="story-inner">
+        <h2>Ер Төстіктің сапары</h2>
+
+        <p>
+          Баяғыда Ерназар деген бай болыпты. Оның сегіз ұлы болыпты,
+          ал көптен күткен кенжесі Төстік ерекше ержүрек болып өсіпті.
+        </p>
+
+        <p>
+          Бір күні ағаларын іздеп жолға шыққан Төстік талай қиындыққа
+          кездеседі. Бірақ ол ешқашан үмітін үзбейді. Жолда оған ақылды
+          Шалқұйрық пен адал достары көмектеседі.
+        </p>
+
+        <div class="quote">
+          «Батырлық білекте ғана емес, жүректе де болады».
+        </div>
+
+        <p>
+          Ер Төстік достарымен бірге талай сыннан өтіп, зұлымдыққа қарсы
+          тұрады. Оның батылдығы мен мейірімі айналасына үміт сыйлайды.
+        </p>
+
+        <p>
+          Осылайша, халық сүйген батыр елін қорғап, жақсылықтың жеңуіне
+          жол ашады. Ертегіден біз достықты бағалап, қиындыққа мойымауды үйренеміз.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Қазақ ертегілері — ұрпақтан ұрпаққа жеткен асыл мұра ✨
+  </footer>
+</body>
+</html>
